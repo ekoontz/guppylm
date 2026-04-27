@@ -117,34 +117,22 @@ Downloads the pre-trained model from HuggingFace and lets you chat. Just run all
 
 ### Train your own on your own computer
 
-Essentially, follow the Colab notebook line-by-line, but on your own machine.
-
-The following instructions install dependencies in a way specific to NixOS/Nixpkgs. Install Python and other dependencies in whatever manner your Linux distribution uses.
-
-Install dependencies:
-
-    nix-shell -p python3 -p python313Packages.pip -p stdenv.cc.cc.lib
+These steps are essentially the same as the Colab notebook line-by-line, but on your own machine.
 
 Create a [Python virtual environment](https://docs.python.org/3/library/venv.html):
 
     python -m venv .venv
     source .venv/bin/activate
 
-Inside the virtual environment, install dependencies:
+Inside the virtual environment, prepare the dataset:
 
-    pip install -r requirements.txt
-
-Prepare the dataset:
-
-    export CCLIBPATH=$(nix-instantiate --eval-only --expr '(import <nixpkgs> {}).stdenv.cc.cc.lib.outPath' --raw)
-    export LD_LIBRARY_PATH=${CCLIBPATH}/lib:$LD_LIBRARY_PATH
-    python -m guppylm prepare
+    make prepare
 
 Expected output starts with `Generating 60000 samples...`.
 
 Pretrain, still from inside the virtual environment:
 
-    python -m guppylm train
+    make train
 
 Expected output:
 
@@ -169,7 +157,7 @@ Training for 10000 steps...
 Done! 2768s, best eval: 0.3845
 ```
 
-As soon as it saves at least one checkpoint, you can start chatting with the model.
+As soon as it saves at least one checkpoint, you can start chatting with the model (see section "Chat locally" below)
 
 ### Chat locally
 
