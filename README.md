@@ -161,19 +161,11 @@ As soon as it saves at least one checkpoint, you can start chatting with the mod
 
 ### Chat locally
 
-First set up a Python virtual environment:
-
-```bash
-python3 -m venv venv
-. venv/bin/activate
-```
-
-then:
-
 ```bash
 make chat
 ```
 
+This will create a Python virtual environment, install the requirements, train or download the model, and then start the chat.
 
 ```
 You> the cat is looking at you
@@ -196,7 +188,7 @@ Finally type `exit` to end the chat and then:
 deactivate
 ```
 
-to leave the Python virtual environment you created above.
+to leave the Python virtual environment that was created as part of the `make chat` command.
 
 Run
 
