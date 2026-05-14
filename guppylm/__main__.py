@@ -43,6 +43,7 @@ def main():
         return
 
     cmd = sys.argv[1]
+    arg1 = sys.argv[2]
     sys.argv = sys.argv[1:]
 
     if cmd == "prepare":
@@ -53,9 +54,9 @@ def main():
         from .train import train
         train()
 
-    elif cmd == "generate":
-        from .prepare_data import generate_data
-        generate_data()
+    elif cmd == "generate_training_data":
+        from .prepare_data import generate_training_data
+        generate_training_data("data", 60000, 0.05)
 
     elif cmd == "download":
         download_model()
