@@ -22,7 +22,7 @@ train: prepare
 	$(ACTIVATE) && python -m guppylm $@
 
 data/train.jsonl: .requirements
-	$(ACTIVATE) && python -m guppylm generate_training_data
+	$(ACTIVATE) && python -m guppylm generate_training_data $@
 
 .requirements: requirements.txt
 	pip install -r $^
