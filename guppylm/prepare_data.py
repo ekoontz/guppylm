@@ -39,16 +39,15 @@ def train_tokenizer(texts, save_path, vocab_size=VOCAB_SIZE):
     print(f"Tokenizer saved to {save_path} ({tokenizer.get_vocab_size()} tokens)")
     return tokenizer
 
-
-def prepare(data_dir=DATA_DIR, n_samples=60000, eval_ratio=0.05):
+def generate_training_data(data_dir=DATA_DIR, n_samples=60000, eval_ratio=0.05):
     os.makedirs(data_dir, exist_ok=True)
 
-    # 1. Generate data
     print(f"Generating {n_samples} samples...")
     from .generate_data import generate_dataset
     generate_dataset(n_samples, eval_ratio)
 
-    # 2. Read back all samples for tokenizer training
+def prepare(data_dir=DATA_DIR):
+    # Read back all samples for tokenizer training
     texts = []
     for name in ["data/train.jsonl", "data/eval.jsonl"]:
         if os.path.exists(name):

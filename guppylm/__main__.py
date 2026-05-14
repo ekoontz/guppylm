@@ -53,6 +53,10 @@ def main():
         from .train import train
         train()
 
+    elif cmd == "generate":
+        from .prepare_data import generate_data
+        generate_data()
+
     elif cmd == "download":
         download_model()
 
