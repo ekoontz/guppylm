@@ -43,7 +43,6 @@ def main():
         return
 
     cmd = sys.argv[1]
-    arg1 = sys.argv[2]
     sys.argv = sys.argv[1:]
 
     if cmd == "prepare":
