@@ -1,6 +1,6 @@
 .PHONY: notebook chat prepare train activate download clean
 
-ACTIVATE=python3 -m venv .venv && . .venv/bin/activate && pip install --upgrade pip
+ACTIVATE=python3 -m venv .venv && . .venv/bin/activate
 
 # comment one of these definitions and uncomment the other:
 #DOWNLOAD_OR_TRAIN=download
