@@ -1617,6 +1617,19 @@ def gen_misc():
 def gen_bye():
     return _make_sample(_user_bye(), _guppy_bye(), "bye")
 
+topics = [
+    gen_greeting, gen_feeling, gen_temp_hot, gen_temp_cold, gen_food,
+    gen_light, gen_water, gen_about, gen_confused, gen_tank, gen_noise,
+    gen_night, gen_lonely, gen_misc, gen_bye,
+    gen_bubbles, gen_glass, gen_reflection, gen_breathing, gen_swimming,
+    gen_colors, gen_taste, gen_plants, gen_filter, gen_algae, gen_snail,
+    gen_glass_tap, gen_scared, gen_excited, gen_bored, gen_curious,
+    gen_happy, gen_tired, gen_outside, gen_cat, gen_rain, gen_seasons,
+    gen_music, gen_visitors, gen_children, gen_meaning, gen_time,
+    gen_memory, gen_dreams, gen_size, gen_future, gen_past, gen_name,
+    gen_weather, gen_sleep, gen_friends, gen_joke, gen_fear, gen_love,
+    gen_age, gen_smart, gen_poop, gen_doctor, gen_singing, gen_tv,
+]
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  FORMAT
@@ -1687,21 +1700,9 @@ def to_openai(s):
 #   The second map is as follows:
 #     "role": "assistant"
 #     "content": sample.output
+
 def generate_dataset(n_samples=60000, eval_ratio=0.05):
     # All topics get equal weight — single-turn only
-    topics = [
-        gen_greeting, gen_feeling, gen_temp_hot, gen_temp_cold, gen_food,
-        gen_light, gen_water, gen_about, gen_confused, gen_tank, gen_noise,
-        gen_night, gen_lonely, gen_misc, gen_bye,
-        gen_bubbles, gen_glass, gen_reflection, gen_breathing, gen_swimming,
-        gen_colors, gen_taste, gen_plants, gen_filter, gen_algae, gen_snail,
-        gen_glass_tap, gen_scared, gen_excited, gen_bored, gen_curious,
-        gen_happy, gen_tired, gen_outside, gen_cat, gen_rain, gen_seasons,
-        gen_music, gen_visitors, gen_children, gen_meaning, gen_time,
-        gen_memory, gen_dreams, gen_size, gen_future, gen_past, gen_name,
-        gen_weather, gen_sleep, gen_friends, gen_joke, gen_fear, gen_love,
-        gen_age, gen_smart, gen_poop, gen_doctor, gen_singing, gen_tv,
-    ]
     w = 1.0 / len(topics)
     generators = [(g, w) for g in topics]
 
