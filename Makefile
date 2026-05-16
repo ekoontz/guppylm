@@ -1,4 +1,4 @@
-.PHONY: notebook chat prepare generate_training_data train activate download clean
+.PHONY: notebook chat tokenizer generate_training_data train activate download clean
 
 ACTIVATE=python3 -m venv .venv && . .venv/bin/activate
 
@@ -15,10 +15,10 @@ chat: data/tokenizer.json checkpoints/best_model.pt checkpoints/config.json .req
 data/tokenizer.json checkpoints/best_model.pt checkpoints/config.json:
 	make $(DOWNLOAD_OR_TRAIN)
 
-prepare: .requirements generate_training_data
+tokenizer: .requirements generate_training_data
 	$(ACTIVATE) && python -m guppylm $@
 
-train: prepare
+train: tokenizer
 	$(ACTIVATE) && python -m guppylm $@
 
 generate_training_data: .requirements

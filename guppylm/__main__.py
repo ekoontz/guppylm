@@ -37,7 +37,7 @@ def main():
         print()
         print("Usage:")
         print("  python -m guppylm train        Train the model")
-        print("  python -m guppylm prepare      Generate data & train tokenizer")
+        print("  python -m guppylm tokenizer    Generate data & train tokenizer")
         print("  python -m guppylm chat         Chat with Guppy")
         print("  python -m guppylm download     Download pre-trained model from HuggingFace")
         return
@@ -45,16 +45,16 @@ def main():
     cmd = sys.argv[1]
     sys.argv = sys.argv[1:]
 
-    if cmd == "prepare":
-        from .prepare_data import prepare
-        prepare()
+    if cmd == "tokenizer":
+        from .tokenizer import tokenizer
+        tokenizer()
 
     elif cmd == "train":
         from .train import train
         train()
 
     elif cmd == "generate_training_data":
-        from .prepare_data import generate_training_data
+        from .tokenizer import generate_training_data
         generate_training_data("data", 60000, 0.05)
 
     elif cmd == "download":
@@ -65,7 +65,7 @@ def main():
             print("Model not found. Download the pre-trained model first:\n")
             print("  python -m guppylm download\n")
             print("Or train your own:\n")
-            print("  python -m guppylm prepare")
+            print("  python -m guppylm tokenizer")
             print("  python -m guppylm train")
             return
 

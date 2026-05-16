@@ -126,7 +126,7 @@ Create a [Python virtual environment](https://docs.python.org/3/library/venv.htm
 
 Inside the virtual environment, prepare the dataset:
 
-    make prepare
+    make tokenizer
 
 Expected output starts with `Generating 60000 samples...`.
 
@@ -230,7 +230,7 @@ guppylm/
 ├── train.py                Training loop (cosine LR, AMP)
 ├── generate_data.py        Conversation data generator (60 topics)
 ├── eval_cases.py           Held-out test cases
-├── prepare_data.py         Data prep + tokenizer training
+├── train_tokenizer.py      Data prep + tokenizer training
 └── inference.py            Chat interface
 
 tools/

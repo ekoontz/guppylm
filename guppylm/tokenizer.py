@@ -16,7 +16,7 @@ SPECIAL_TOKENS = [
 ]
 
 
-def train_tokenizer(texts, save_path, vocab_size=VOCAB_SIZE):
+def tokenizer_from(texts, save_path, vocab_size=VOCAB_SIZE):
     from tokenizers import Tokenizer, models, trainers, pre_tokenizers, decoders, processors
 
     tokenizer = Tokenizer(models.BPE())
@@ -46,7 +46,7 @@ def generate_training_data(data_dir=DATA_DIR, n_samples=60000, eval_ratio=0.05):
     from .generate_data import generate_dataset
     generate_dataset(n_samples, eval_ratio)
 
-def prepare(data_dir=DATA_DIR):
+def tokenizer(data_dir=DATA_DIR):
     # Read back all samples for tokenizer training
     texts = []
     for name in ["data/train.jsonl", "data/eval.jsonl"]:
@@ -57,7 +57,7 @@ def prepare(data_dir=DATA_DIR):
 
     # 3. Train tokenizer
     tokenizer_path = os.path.join(data_dir, "tokenizer.json")
-    tokenizer = train_tokenizer(texts, tokenizer_path)
+    tokenizer = tokenizer_from(texts, tokenizer_path)
 
     # Quick test
     test = "<|im_start|>user\nhi guppy<|im_end|>"
@@ -70,4 +70,4 @@ def prepare(data_dir=DATA_DIR):
 
 
 if __name__ == "__main__":
-    prepare()
+    train_tokenizer()
