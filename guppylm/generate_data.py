@@ -1640,6 +1640,11 @@ def to_openai(s):
 #  MAIN
 # ══════════════════════════════════════════════════════════════════════════════
 
+# this function generates 4 files:
+# - data/train.jsonl:        non-OpenAI training question/answer pairs
+# - data/eval.jsonl:         non-OpenAI eval question/answer pairs
+# - data/train_openai.jsonl: OpenAI training question/answer pairs
+# - data/eval.jsonl:         OpenAI eval question/answer pairs
 def generate_dataset(n_samples=60000, eval_ratio=0.05):
     # All topics get equal weight — single-turn only
     topics = [
@@ -1678,10 +1683,17 @@ def generate_dataset(n_samples=60000, eval_ratio=0.05):
     eval_samples, train_samples = samples[:n_eval], samples[n_eval:]
 
     os.makedirs("data", exist_ok=True)
+    # non-OpenAI format - each line has:
+    # - text: text
+    # - category: {meaning,time,memory,..}
     for name, data in [("data/train.jsonl", train_samples), ("data/eval.jsonl", eval_samples)]:
         with open(name, "w") as f:
             for s in data:
                 f.write(json.dumps({"text": format_sample(s), "category": s["category"]}) + "\n")
+    # OpenAI format - each line has:
+    # - messages: an array of:
+    #     - role: {user,assistant}
+    #     - content: text
     for name, data in [("data/train_openai.jsonl", train_samples), ("data/eval_openai.jsonl", eval_samples)]:
         with open(name, "w") as f:
             for s in data:
