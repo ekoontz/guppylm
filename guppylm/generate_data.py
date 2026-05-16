@@ -1641,23 +1641,13 @@ def format_sample(s):
         f"<|im_start|>assistant\n{s['output']}<|im_end|>"
     )
 
-
-def to_openai(s):
-    return {"messages": [
-        {"role": "user", "content": s["input"]},
-        {"role": "assistant", "content": s["output"]},
-    ]}
-
-
 # ══════════════════════════════════════════════════════════════════════════════
 #  MAIN
 # ══════════════════════════════════════════════════════════════════════════════
 
 # This function generates 4 files:
-# - data/train.jsonl:        non-OpenAI training question/answer pairs
-# - data/eval.jsonl:         non-OpenAI eval question/answer pairs
-# - data/train_openai.jsonl: OpenAI training question/answer pairs
-# - data/eval.jsonl:         OpenAI eval question/answer pairs
+# - data/train.jsonl: training question/answer pairs
+# - data/eval.jsonl:  eval question/answer pairs
 
 # Works by:
 # 1. samples <= generating n_samples samples (see below for what a sample is)
@@ -1682,7 +1672,6 @@ def to_openai(s):
 # In the files mentioned above, each line is a sample that is mapped to a question/answer pair
 # as follows:
 #
-# non-OpenAI files:
 # each line is a JSON map with:
 #   - sample.input and sample.output are concatenated as follows:
 #      "<|im_start|>user\n"     .sample.input  ."<|im_end|>\n"
@@ -1690,16 +1679,6 @@ def to_openai(s):
 #     and used as the "text" key of the JSON map.
 #   - sample.category is used as the "category" key of the JSON map.
 #
-# OpenAI files:
-# each line is a JSON map with only one key: "messages".
-# The value of "messages" is an array with two elements - each is a JSON map.
-#   The two maps have the same key-value structure.
-#   The first map is as follows:
-#     "role": "user"
-#     "content": sample.input
-#   The second map is as follows:
-#     "role": "assistant"
-#     "content": sample.output
 
 def generate_dataset(n_samples=60000, eval_ratio=0.05):
     # All topics get equal weight — single-turn only
@@ -1726,21 +1705,12 @@ def generate_dataset(n_samples=60000, eval_ratio=0.05):
     eval_samples, train_samples = samples[:n_eval], samples[n_eval:]
 
     os.makedirs("data", exist_ok=True)
-    # non-OpenAI format - each line has:
     # - text: text
     # - category: {meaning,time,memory,..}
     for name, data in [("data/train.jsonl", train_samples), ("data/eval.jsonl", eval_samples)]:
         with open(name, "w") as f:
             for s in data:
                 f.write(json.dumps({"text": format_sample(s), "category": s["category"]}) + "\n")
-    # OpenAI format - each line has:
-    # - messages: an array of:
-    #     - role: {user,assistant}
-    #     - content: text
-    for name, data in [("data/train_openai.jsonl", train_samples), ("data/eval_openai.jsonl", eval_samples)]:
-        with open(name, "w") as f:
-            for s in data:
-                f.write(json.dumps(to_openai(s)) + "\n")
 
     cats = Counter(s["category"] for s in samples)
     unique_outputs = len(set(s["output"] for s in samples))
