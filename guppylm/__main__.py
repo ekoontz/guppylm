@@ -54,7 +54,7 @@ def main():
         train()
 
     elif cmd == "generate_training_data":
-        from .tokenizer import generate_training_data
+        from .generate_data import generate_training_data
         generate_training_data("data", 60000, 0.05)
 
     elif cmd == "download":

@@ -1721,6 +1721,12 @@ def generate_dataset(n_samples=60000, eval_ratio=0.05):
     for cat, count in sorted(cats.items(), key=lambda x: -x[1]):
         print(f"  {cat}: {count} ({count/len(samples)*100:.1f}%)")
 
+def generate_training_data(data_dir=DATA_DIR, n_samples=60000, eval_ratio=0.05):
+    os.makedirs(data_dir, exist_ok=True)
+
+    print(f"Generating {n_samples} samples...")
+    from .generate_data import generate_dataset
+    generate_dataset(n_samples, eval_ratio)
 
 if __name__ == "__main__":
     generate_dataset(60000)
