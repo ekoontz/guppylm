@@ -1,31 +1,25 @@
-.PHONY: notebook chat tokenizer generate_training_data train activate download clean
+.PHONY: chat notebook clean
 
 ACTIVATE=python3 -m venv .venv && . .venv/bin/activate
 
-notebook:
-	python3 tools/make_colab.py
-
-chat: data/tokenizer.json checkpoints/best_model.pt checkpoints/config.json .requirements
+chat: checkpoints/best_model.pt checkpoints/config.json
 	$(ACTIVATE) && python -m guppylm $@
 
-data/tokenizer.json checkpoints/best_model.pt checkpoints/config.json: train
+checkpoints/best_model.pt checkpoints/config.json : data/tokenizer.json
+	$(ACTIVATE) && python -m guppylm train
 
-tokenizer: .requirements generate_training_data
-	$(ACTIVATE) && python -m guppylm $@
+data/tokenizer.json: data/eval.jsonl data/train.jsonl
+	$(ACTIVATE) && python -m guppylm tokenizer
 
-train: tokenizer
-	$(ACTIVATE) && python -m guppylm $@
-
-generate_training_data: .requirements
-	$(ACTIVATE) && python -m guppylm $@
+data/eval.jsonl data/train.jsonl: .requirements
+	$(ACTIVATE) && python -m guppylm generate_training_data
 
 .requirements: requirements.txt
 	pip install -r $^
 	touch $@
 
-activate:
-	python3 -m venv .venv
-	echo "Virtual environment ready. Now you can active it with: source .venv/bin/activate"
+notebook:
+	python3 tools/make_colab.py
 
 clean:
 	- rm -rf venv data checkpoints .requirements
