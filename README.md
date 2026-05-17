@@ -115,24 +115,36 @@ Downloads the pre-trained model from HuggingFace and lets you chat. Just run all
 2. **Run all cells** — downloads dataset, trains tokenizer, trains model, tests it
 3. Upload to HuggingFace or download locally
 
-### Train your own on your own computer
+### Train your own on your own computer (fast)
+
+```
+make chat
+```
+
+### Train your own on your own computer (detailed)
 
 These steps are essentially the same as the Colab notebook line-by-line, but on your own machine.
 
 Create a [Python virtual environment](https://docs.python.org/3/library/venv.html):
 
-    python -m venv .venv
-    source .venv/bin/activate
+```
+python -m venv .venv
+source .venv/bin/activate
+```
 
 Inside the virtual environment, prepare the dataset:
 
-    make tokenizer
+```
+make data/tokenizer.json
+```
 
 Expected output starts with `Generating 60000 samples...`.
 
 Pretrain, still from inside the virtual environment:
 
-    make train
+```
+make checkpoints/best_model.pt
+```
 
 Expected output:
 
