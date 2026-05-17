@@ -15,7 +15,7 @@ import os
 from collections import Counter
 
 random.seed(42)
-
+DATA_DIR = "data"
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  BUILDING BLOCKS
