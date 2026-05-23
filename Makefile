@@ -1,9 +1,11 @@
-.PHONY: chat notebook clean
+.PHONY: chat train notebook clean
 
 ACTIVATE=python3 -m venv .venv && . .venv/bin/activate
 
 chat: checkpoints/best_model.pt checkpoints/config.json
 	$(ACTIVATE) && python -m guppylm $@
+
+train: checkpoints/best_model.pt checkpoints/config.json
 
 checkpoints/best_model.pt checkpoints/config.json: data/tokenizer.json
 	$(ACTIVATE) && python -m guppylm train

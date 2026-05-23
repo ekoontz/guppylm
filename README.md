@@ -210,7 +210,27 @@ make clean
 
 to clean up the virtual environment with all the dependencies to recover the disk space taken by guppy's dependencies.
 
+### From the python repl
+
+```
+$ make train
+$ python3 -m venv .venv && . .venv/bin/activate
+$ python
+Python 3.14.4 (main, Apr  7 2026, 13:13:20) [Clang 21.0.0 (clang-2100.0.123.102)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import guppylm.inference
+>>> engine = guppylm.inference.GuppyInference("checkpoints/best_model.pt","data/tokenizer.json","cpu")
+>>> result = engine.chat_completion([{"role":"user", "content": "hello guppy"}])
+>>> msg = result["choices"][0]["message"]
+>>> msg
+{'role': 'assistant', 'content': "hi there. i was just thinking about food. it's a good day to be a fish."}
+```
+
 ---
+
+
+
+
 
 ## Dataset
 
