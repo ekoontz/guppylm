@@ -11,16 +11,16 @@ checkpoints/best_model.pt checkpoints/config.json: data/tokenizer.json
 data/tokenizer.json: data/eval.jsonl data/train.jsonl
 	$(ACTIVATE) && python -m guppylm tokenizer
 
-data/eval.jsonl data/train.jsonl: .requirements
+data/eval.jsonl data/train.jsonl: .venv
 	$(ACTIVATE) && python -m guppylm generate_training_data
 
-.requirements: requirements.txt
-	pip install -r $^
-	touch $@
+.venv: requirements.txt
+	$(ACTIVATE) && pip install -r $^
 
 notebook:
 	python3 tools/make_colab.py
 
 clean:
-	- rm -rf venv data checkpoints .requirements
+	- rm -rf .venv data checkpoints
+
 
