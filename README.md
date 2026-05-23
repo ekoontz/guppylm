@@ -224,6 +224,30 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> msg = result["choices"][0]["message"]
 >>> msg
 {'role': 'assistant', 'content': "hi there. i was just thinking about food. it's a good day to be a fish."}
+>>> engine.model
+GuppyLM(
+  (tok_emb): Embedding(4096, 384)
+  (pos_emb): Embedding(128, 384)
+  (drop): Dropout(p=0.1, inplace=False)
+  (blocks): ModuleList(
+    (0-5): 6 x Block(
+      (norm1): LayerNorm((384,), eps=1e-05, elementwise_affine=True, bias=True)
+      (attn): Attention(
+        (qkv): Linear(in_features=384, out_features=1152, bias=True)
+        (out): Linear(in_features=384, out_features=384, bias=True)
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+      (norm2): LayerNorm((384,), eps=1e-05, elementwise_affine=True, bias=True)
+      (ffn): FFN(
+        (up): Linear(in_features=384, out_features=768, bias=True)
+        (down): Linear(in_features=768, out_features=384, bias=True)
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+    )
+  )
+  (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True, bias=True)
+  (lm_head): Linear(in_features=384, out_features=4096, bias=False)
+)
 ```
 
 ---
