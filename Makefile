@@ -19,10 +19,12 @@ data/eval.jsonl data/train.jsonl: .venv
 .venv: requirements.txt
 	$(ACTIVATE) && pip install -r $^
 
-notebook:
+notebook: gupplylm/train_guppylm.ipynb gupplylm/use_guppylm.ipynb
+
+gupplylm/train_guppylm.ipynb gupplylm/use_guppylm.ipynb:
 	python3 tools/make_colab.py
 
 clean:
-	- rm -rf .venv data checkpoints
+	- rm -rf .venv data checkpoints gupplylm/train_guppylm.ipynb gupplylm/use_guppylm.ipynb
 
 
