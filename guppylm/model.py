@@ -104,21 +104,24 @@ class GuppyLM(nn.Module):
         return logits, loss
 
     @torch.no_grad()
-    def generate(self, idx, max_new_tokens=64, temperature=0.7, top_k=50, **kwargs):
+    def generate(self, tokens, max_new_tokens=64, temperature=0.7, top_k=50, **kwargs):
         self.eval()
         for _ in range(max_new_tokens):
-            idx_cond = idx[:, -self.config.max_seq_len:]
-            logits, _ = self(idx_cond)
+            # take the last config.max_seq_len (=128 tokens) tokens
+            # (if the length of the tokens is less than 128,
+            #  then take all of the tokens).
+            tokens_cond = tokens[:, -self.config.max_seq_len:]
+            logits, _ = self(tokens_cond)
             logits = logits[:, -1, :] / temperature
             if top_k > 0:
                 v, _ = torch.topk(logits, min(top_k, logits.size(-1)))
                 logits[logits < v[:, [-1]]] = float("-inf")
             probs = F.softmax(logits, dim=-1)
             next_id = torch.multinomial(probs, num_samples=1)
-            idx = torch.cat([idx, next_id], dim=1)
+            tokens = torch.cat([tokens, next_id], dim=1)
             if next_id.item() == self.config.eos_id:
                 break
-        return idx, []
+        return tokens, []
 
     def param_count(self):
         total = sum(p.numel() for p in self.parameters())
